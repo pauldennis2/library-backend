@@ -85,6 +85,16 @@ public class Book {
         return checkedOutBy;
     }
 
+    public void setCheckedOutBy (String user) {
+        if (user == null) {
+            checkedOutBy = null;
+            checkedOut = false;
+        } else {
+            checkedOutBy = user;
+            checkedOut = true;
+        }
+    }
+
     public static String getDateFromLocalDateTime () {
         LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY MMM DD");

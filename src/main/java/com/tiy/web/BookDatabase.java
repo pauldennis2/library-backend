@@ -1,8 +1,6 @@
 package com.tiy.web;
 
-import com.sun.deploy.association.AssociationAlreadyRegisteredException;
 import org.h2.tools.Server;
-import org.springframework.util.Assert;
 
 import java.sql.*;
 import java.util.ArrayList;

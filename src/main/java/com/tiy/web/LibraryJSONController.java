@@ -1,9 +1,11 @@
 package com.tiy.web;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +16,46 @@ import java.util.List;
 @RestController
 public class LibraryJSONController {
 
-    @RequestMapping(path = "/sample", method = RequestMethod.GET)
+    List<Book> books;
+    boolean booksInit = false;
+
+    @RequestMapping(path = "/sample.json", method = RequestMethod.GET)
     public List<Book> getAllBooks () throws SQLException {
-        List<Book> books = new ArrayList<Book>();
-        books.add(new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", null));
-        books.add(new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", null));
-        books.add(new Book("The Martian", "Andy Weir", "Science Fiction", "Paul"));
+        books = new ArrayList<Book>();
+        if (!booksInit) {
+            books.add(new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", null));
+            books.add(new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", null));
+            books.add(new Book("The Martian", "Andy Weir", "Science Fiction", "Paul"));
+        }
         return books;
     }
 
     /*@RequestMapping(path = "/checkout", method = RequestMethod.POST)
-    public Something checkOutBook () throws SQLException {
-        r
+    public List<Book> toggleBookCheckOut (@RequestBody UserRequestBody ) throws SQLException {
+        //PreparedStatement statement = conn.prepareStatement();
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                book
+            }
+        }
+        return books;
     }*/
+
+    class UserRequestBody {
+        private String title;
+        private String userName;
+
+        public UserRequestBody (String title, String userName) {
+            this.title = title;
+            this.userName = userName;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+    }
 }
