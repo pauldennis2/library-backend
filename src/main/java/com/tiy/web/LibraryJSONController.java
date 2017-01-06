@@ -30,22 +30,22 @@ public class LibraryJSONController {
         return books;
     }
 
-    /*@RequestMapping(path = "/checkout", method = RequestMethod.POST)
-    public List<Book> toggleBookCheckOut (@RequestBody UserRequestBody ) throws SQLException {
+    @RequestMapping(path = "/checkout", method = RequestMethod.POST)
+    public List<Book> toggleBookCheckOut (@RequestBody UserRequest userRequest) throws SQLException {
         //PreparedStatement statement = conn.prepareStatement();
         for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                book
+            if (book.getTitle().equals(userRequest.getTitle())) {
+                book.setCheckedOutBy(userRequest.getUserName());
             }
         }
         return books;
-    }*/
+    }
 
-    class UserRequestBody {
+    class UserRequest {
         private String title;
         private String userName;
 
-        public UserRequestBody (String title, String userName) {
+        public UserRequest (String title, String userName) {
             this.title = title;
             this.userName = userName;
         }

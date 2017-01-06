@@ -20,26 +20,28 @@ public class BookDatabase {
         server.start();
         Connection conn = DriverManager.getConnection(DB_PATH);
         Statement statement = conn.createStatement();
-        statement.execute("CREATE TABLE IF NOT EXISTS books " +
-                "(id IDENTITY, title VARCHAR, author VARCHAR, genre VARCHAR, checked_out_user_id int, due_date VARCHAR");
+        /*statement.execute("CREATE TABLE IF NOT EXISTS books " +
+                "(id IDENTITY, title VARCHAR, author VARCHAR, genre VARCHAR, checked_out_user_id int, due_date VARCHAR");*/
+        statement.execute("Create table if not exists books " +
+                        "(id identity, title varchar, author varchar, genre varchar, user varchar)");
         statement.execute("CREATE TABLE IF NOT EXISTS users " +
                 "(id IDENTITY, username VARCHAR, first_name VARCHAR, last_name VARCHAR, password VARCHAR)");
     }
 
     public void insertBook(Connection conn, Book book) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?, ?, ?)");
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO books VALUES (NULL, ?, ?, ?, ?)");
         statement.setString(1, book.getTitle());
         statement.setString(2, book.getAuthor());
         statement.setString(3, book.getGenre());
+        statement.setString(4, book.getCheckedOutBy());
         /*if (book.getCheckedOutBy() == null) {
             statement.setInt(4, -1);
         } else {
             statement.setInt(4, book.getCheckedOutBy().getId());
         }*/
 //        statement.setInt(4, book.getCheckedOutById());
-        statement.setString(5, book.getDueDate());
+        //statement.setString(5, book.getDueDate());
         statement.execute();
-        // todo clean up here
     }
 
     public int insertUser(Connection conn, String username, String firstName, String lastName, String password) throws SQLException {

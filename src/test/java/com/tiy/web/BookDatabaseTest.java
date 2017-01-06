@@ -20,8 +20,11 @@ public class BookDatabaseTest {
 
     @Before
     public void setUp() throws Exception {
-        bookDatabase = new BookDatabase();
-        conn = DriverManager.getConnection(DB_PATH);
+        if (bookDatabase == null) {
+            bookDatabase = new BookDatabase();
+            conn = DriverManager.getConnection(DB_PATH);
+            bookDatabase.init();
+        }
     }
 
     @After

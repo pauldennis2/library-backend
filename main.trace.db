@@ -4,3 +4,21 @@ INSERT INTO users VALUES (NULL, ?, ?, ?, ?) [42102-193]
 2017-01-06 12:26:57 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERS" not found; SQL statement:
 INSERT INTO users VALUES (NULL, ?, ?, ?, ?) [42102-193]
+2017-01-06 12:58:13 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS BOOKS (ID IDENTITY, TITLE VARCHAR, AUTHOR VARCHAR, GENRE VARCHAR, CHECKED_OUT_USER_ID INT, DUE_DATE VARCHAR [*]"; expected "(, FOR, UNSIGNED, NOT, NULL, AS, DEFAULT, GENERATED, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE IF NOT EXISTS books (id IDENTITY, title VARCHAR, author VARCHAR, genre VARCHAR, checked_out_user_id int, due_date VARCHAR [42001-193]
+2017-01-06 12:58:33 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS BOOKS (ID IDENTITY, TITLE VARCHAR, AUTHOR VARCHAR, GENRE VARCHAR, CHECKED_OUT_USER_ID INT, DUE_DATE VARCHAR [*]"; expected "(, FOR, UNSIGNED, NOT, NULL, AS, DEFAULT, GENERATED, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE IF NOT EXISTS books (id IDENTITY, title VARCHAR, author VARCHAR, genre VARCHAR, checked_out_user_id int, due_date VARCHAR [42001-193]
+2017-01-06 13:01:35 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABEL[*] IF NOT EXISTS BOOKS ID IDENTITY, TITLE VARCHAR, AUTHOR VARCHAR, GENRE VARCHAR, USER VARCHAR "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+Create tabel if not exists books id identity, title varchar, author varchar, genre varchar, user varchar [42001-193]
+2017-01-06 13:01:48 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABEL[*] IF NOT EXISTS BOOKS ID IDENTITY, TITLE VARCHAR, AUTHOR VARCHAR, GENRE VARCHAR, USER VARCHAR "; expected "OR, FORCE, VIEW, ALIAS, SEQUENCE, USER, TRIGGER, ROLE, SCHEMA, CONSTANT, DOMAIN, TYPE, DATATYPE, AGGREGATE, LINKED, MEMORY, CACHED, LOCAL, GLOBAL, TEMP, TEMPORARY, TABLE, PRIMARY, UNIQUE, HASH, SPATIAL, INDEX"; SQL statement:
+Create tabel if not exists books id identity, title varchar, author varchar, genre varchar, user varchar [42001-193]
+2017-01-06 13:02:18 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS BOOKS ID[*] IDENTITY, TITLE VARCHAR, AUTHOR VARCHAR, GENRE VARCHAR, USER VARCHAR "; SQL statement:
+Create table if not exists books id identity, title varchar, author varchar, genre varchar, user varchar [42000-193]
+2017-01-06 13:03:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TODOS" not found; SQL statement:
+INSERT INTO todos VALUES (NULL, ?, ?, ?, ?, ?) [42102-193]
