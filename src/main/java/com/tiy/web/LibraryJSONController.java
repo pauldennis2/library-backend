@@ -17,12 +17,14 @@ public class LibraryJSONController {
     @RequestMapping(path = "/sample", method = RequestMethod.GET)
     public List<Book> getAllBooks () throws SQLException {
         List<Book> books = new ArrayList<Book>();
-        books.add(new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy"));
-        books.add(new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy"));
-        books.add(new Book("The Martian", "Andy Weir", "Science Fiction"));
+        books.add(new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", null));
+        books.add(new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", null));
+        books.add(new Book("The Martian", "Andy Weir", "Science Fiction", "Paul"));
         return books;
     }
 
-//    @RequestMapping(path = "/checkout", method = RequestMethod.POST)
-//    public
+    /*@RequestMapping(path = "/checkout", method = RequestMethod.POST)
+    public Something checkOutBook () throws SQLException {
+        r
+    }*/
 }

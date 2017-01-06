@@ -30,7 +30,19 @@ public class Book {
         checkedOutBy = null;
     }
 
-    public Book(int id, String title, String author, String genre, String checkedOutBy, String dueDate) {
+    public Book (String title, String author, String genre, String checkedOutBy) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.checkedOutBy = checkedOutBy;
+        if (checkedOutBy != null) {
+             checkedOut = true;
+        } else {
+            checkedOut = false;
+        }
+    }
+
+    public Book(int id, String title, String author, String genre, String checkedOutBy/*, String dueDate*/) {
         this.id = id;
         this.dueDate = dueDate;
         this.title = title;
@@ -68,6 +80,10 @@ public class Book {
     /*public int getCheckedOutById () {
         return checkedOutById;
     }*/
+
+    public String getCheckedOutBy () {
+        return checkedOutBy;
+    }
 
     public static String getDateFromLocalDateTime () {
         LocalDateTime time = LocalDateTime.now();

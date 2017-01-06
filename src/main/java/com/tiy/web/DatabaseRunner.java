@@ -5,7 +5,7 @@ package com.tiy.web;
  */
 public class DatabaseRunner {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         System.out.println(Book.getDateFromLocalDateTime());
-    }
+    }*/
 }
