@@ -13,16 +13,15 @@ import static org.junit.Assert.*;
  */
 public class BookDatabaseTest {
 
-    BookDatabase bookDatabase;
+    static BookDatabase bookDatabase;
     Connection conn;
-
     public static final String DB_PATH = "jdbc:h2:./main";
 
     @Before
     public void setUp() throws Exception {
+        conn = DriverManager.getConnection(DB_PATH);
         if (bookDatabase == null) {
             bookDatabase = new BookDatabase();
-            conn = DriverManager.getConnection(DB_PATH);
             bookDatabase.init();
         }
     }
@@ -34,7 +33,9 @@ public class BookDatabaseTest {
 
     @Test
     public void testInitDb () throws SQLException {
-
+        PreparedStatement todoQuery = conn.prepareStatement("SELECT * FROM books");
+        ResultSet results = todoQuery.executeQuery();
+        assertNotNull(results);
     }
 
     @Test
@@ -91,6 +92,17 @@ public class BookDatabaseTest {
         assertEquals(0, numResults);
     }
 
+    @Test
+    public void testDeleteById () throws SQLException {
+        Book king1 = new Book ("Return of the King", "Tolkien", "Fantasy");
+        Book king2 = new Book ("Return of the King", "Tolkien", "Fantasy");
 
+        int id1 = bookDatabase.insertBook(conn, king1);
+        int id2 = bookDatabase.insertBook(conn, king2);
 
+        bookDatabase.deleteBookById(conn, id1);
+
+        Book retrieved = bookDatabase.retrieveBook(conn, "Return of the King");
+        assertTrue(false);
+    }
 }

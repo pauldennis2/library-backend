@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class LibraryJSONController {
     @RequestMapping(path = "/checkout", method = RequestMethod.POST)
     public List<Book> toggleBookCheckOut (@RequestBody UserRequest userRequest) throws SQLException {
         //PreparedStatement statement = conn.prepareStatement();
+        if (!booksInit) {
+            getAllBooks();
+        }
         for (Book book : books) {
             if (book.getTitle().equals(userRequest.getTitle())) {
                 book.setCheckedOutBy(userRequest.getUserName());
@@ -41,21 +45,5 @@ public class LibraryJSONController {
         return books;
     }
 
-    class UserRequest {
-        private String title;
-        private String userName;
 
-        public UserRequest (String title, String userName) {
-            this.title = title;
-            this.userName = userName;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-    }
 }
