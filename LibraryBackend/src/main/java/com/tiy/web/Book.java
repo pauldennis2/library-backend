@@ -1,5 +1,7 @@
 package com.tiy.web;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -14,7 +16,8 @@ public class Book {
     String author;
     String genre;
     //User checkedOutBy;
-    int checkedOutById
+    //int checkedOutById;
+    String checkedOutBy;
 
     public Book (String title, String author, String genre) {
         this.title = title;
@@ -23,24 +26,30 @@ public class Book {
 
         dueDate = null;
         checkedOut = false;
+        //checkedOutById = -1;
         checkedOutBy = null;
     }
 
-    public Book(int id, String title, String author, String genre, int checkedOutById, String dueDate) {
+    public Book(int id, String title, String author, String genre, String checkedOutBy, String dueDate) {
         this.id = id;
-        this.checkedOut = checkedOut;
         this.dueDate = dueDate;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.checkedOutById = checkedOutById;
+        this.checkedOutBy = checkedOutBy;
+        if (checkedOutBy != null) {
+            checkedOut = true;
+        } else {
+            checkedOut = false;
+        }
+        //this.checkedOutById = checkedOutById;
     }
 
     public boolean isCheckedOut() {
         return checkedOut;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
@@ -56,7 +65,17 @@ public class Book {
         return genre;
     }
 
-    public User getCheckedOutBy() {
-        return checkedOutBy;
+    /*public int getCheckedOutById () {
+        return checkedOutById;
+    }*/
+
+    public static String getDateFromLocalDateTime () {
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY MMM DD");
+        return time.format(formatter);
+    }
+
+    public static LocalDateTime getLocalDateTimeFromString (String formattedDateTime) {
+        return null;
     }
 }

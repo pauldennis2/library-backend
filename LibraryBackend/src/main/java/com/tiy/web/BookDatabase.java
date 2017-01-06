@@ -1,5 +1,9 @@
 package com.tiy.web;
 
+import com.sun.deploy.association.AssociationAlreadyRegisteredException;
+import org.h2.tools.Server;
+import org.springframework.util.Assert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +29,19 @@ public class BookDatabase {
     }
 
     public void insertBook(Connection conn, Book book) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?, ?)");
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?, ?, ?)");
         statement.setString(1, book.getTitle());
         statement.setString(2, book.getAuthor());
         statement.setString(3, book.getGenre());
-        if (book.getCheckedOutBy() == null) {
+        /*if (book.getCheckedOutBy() == null) {
             statement.setInt(4, -1);
         } else {
             statement.setInt(4, book.getCheckedOutBy().getId());
-        }
+        }*/
+//        statement.setInt(4, book.getCheckedOutById());
+        statement.setString(5, book.getDueDate());
         statement.execute();
+        // todo clean up here 
     }
 
     public int insertUser(Connection conn, String username, String firstName, String lastName, String password) throws SQLException {
@@ -58,10 +65,9 @@ public class BookDatabase {
         statement.execute();
     }
 
-    public void deleteBook(Connection conn, String text, int userId) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("DELETE FROM todos where text = ? AND user_id = ?");
-        statement.setString(1, text);
-        statement.setInt(2, userId);
+    public void deleteBook(Connection conn, String title) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("DELETE FROM books where title = ?");
+        statement.setString(1, title);
         statement.execute();
     }
 
@@ -76,7 +82,8 @@ public class BookDatabase {
             String genre = results.getString("genre");
             int user_id = results.getInt("user_checked_out_id");
             String dueDate = results.getString("due_date");
-            books.add(new Book(id, title, author, genre, user_id, dueDate));
+            throw new AssertionError("fix");
+            //books.add(new Book(id, title, author, genre, user_id, dueDate));
         }
         return books;
     }
@@ -92,8 +99,9 @@ public class BookDatabase {
         String genre = results.getString("genre");
         int user_id = results.getInt("user_checked_out_id");
         String dueDate = results.getString("due_date");
-        Book retrievedBook = new Book (id, retrievedTitle, author, genre, user_id, dueDate);
-        return retrievedBook;
+        throw new AssertionError("shut up dom");
+        //Book retrievedBook = new Book (id, retrievedTitle, author, genre, user_id, dueDate);
+        //return retrievedBook;
     }
 
     public User retrieveUser (Connection conn, String userName) throws SQLException {
@@ -109,7 +117,7 @@ public class BookDatabase {
         return new User(id, retrievedUserName, firstName, lastName, password);
     }
 
-    public void closeServer () {
+    /*public void closeServer () {
         server.stop();
-    }
+    }*/
 }
