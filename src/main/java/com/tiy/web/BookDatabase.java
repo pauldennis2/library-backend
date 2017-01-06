@@ -41,7 +41,7 @@ public class BookDatabase {
 //        statement.setInt(4, book.getCheckedOutById());
         statement.setString(5, book.getDueDate());
         statement.execute();
-        // todo clean up here 
+        // todo clean up here
     }
 
     public int insertUser(Connection conn, String username, String firstName, String lastName, String password) throws SQLException {

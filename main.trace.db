@@ -1,0 +1,3 @@
+2017-01-06 12:15:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERS" not found; SQL statement:
+INSERT INTO users VALUES (NULL, ?, ?, ?, ?) [42102-193]
