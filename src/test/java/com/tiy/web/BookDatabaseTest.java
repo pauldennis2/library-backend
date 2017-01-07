@@ -94,15 +94,18 @@ public class BookDatabaseTest {
 
     @Test
     public void testDeleteById () throws SQLException {
-        Book king1 = new Book ("Return of the King", "Tolkien", "Fantasy");
-        Book king2 = new Book ("Return of the King", "Tolkien", "Fantasy");
+        String bookName = "Boring Test Book";
+        Book king1 = new Book (bookName, "Smith", "Fantasy");
+        Book king2 = new Book (bookName, "Smith", "Fantasy");
 
         int id1 = bookDatabase.insertBook(conn, king1);
         int id2 = bookDatabase.insertBook(conn, king2);
 
         bookDatabase.deleteBookById(conn, id1);
 
-        Book retrieved = bookDatabase.retrieveBook(conn, "Return of the King");
-        assertTrue(false);
+
+        Book retrievedBook = bookDatabase.retrieveBook(conn, bookName);
+        assertEquals(id2, retrievedBook.getId());
+        bookDatabase.deleteBook(conn, bookName);
     }
 }

@@ -81,16 +81,19 @@ public class Book {
         return checkedOutById;
     }*/
 
+    public int getId() {
+        return id;
+    }
+
     public String getCheckedOutBy () {
         return checkedOutBy;
     }
 
     public void setCheckedOutBy (String user) {
+        checkedOutBy = user;
         if (user == null) {
-            checkedOutBy = null;
             checkedOut = false;
         } else {
-            checkedOutBy = user;
             checkedOut = true;
         }
     }

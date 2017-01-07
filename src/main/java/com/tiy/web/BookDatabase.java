@@ -23,8 +23,6 @@ public class BookDatabase {
         server.start();
         Connection conn = DriverManager.getConnection(DB_PATH);
         Statement statement = conn.createStatement();
-        /*statement.execute("CREATE TABLE IF NOT EXISTS books " +
-                "(id IDENTITY, title VARCHAR, author VARCHAR, genre VARCHAR, checked_out_user_id int, due_date VARCHAR");*/
         statement.execute("Create table if not exists books " +
                         "(id identity, title varchar, author varchar, genre varchar, user varchar)");
         statement.execute("CREATE TABLE IF NOT EXISTS users " +
@@ -103,19 +101,40 @@ public class BookDatabase {
         return books;
     }
 
+    public List<Book> selectAllBooksWithCheckedOutStatus (Connection conn, boolean checkedOut) throws SQLException {
+        List<Book> books = new ArrayList<>();
+        PreparedStatement statement;
+        if (checkedOut) {
+            statement = conn.prepareStatement("Select * from books where user != null");
+        } else {
+            statement = conn.prepareStatement("Select * from books where user = null");
+        }
+        ResultSet results = statement.executeQuery();
+        while (results.next()) {
+            int id = results.getInt("id");
+            String title = results.getString("text");
+            String author = results.getString("author");
+            String genre = results.getString("genre");
+            String user = results.getString("user");
+            String dueDate = results.getString("due_date");
+            books.add(new Book(id, title, author, genre, user));
+        }
+        return books;
+    }
+
     public Book retrieveBook (Connection conn, String title) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("Select * from books where title = ?");
         statement.setString(1, title);
         ResultSet results = statement.executeQuery();
         results.next();
         int id = results.getInt("id");
-        String retrievedTitle = results.getString("text");
+        String retrievedTitle = results.getString("title");
         String author = results.getString("author");
         String genre = results.getString("genre");
-        int user_id = results.getInt("user_checked_out_id");
-        String dueDate = results.getString("due_date");
-        //throw new AssertionError("shut up dom");
-        Book retrievedBook = new Book (id, retrievedTitle, author, genre, dueDate);
+        //int user_id = results.getInt("user_checked_out_id");
+        //String dueDate = results.getString("due_date");
+        String checkedOutBy = results.getString("user");
+        Book retrievedBook = new Book (id, retrievedTitle, author, genre, checkedOutBy);
         return retrievedBook;
     }
 
@@ -134,5 +153,13 @@ public class BookDatabase {
 
     public void closeServer () {
         server.stop();
+    }
+
+    public void checkOutBook (Connection conn, String title) throws SQLException {
+
+    }
+
+    public void returnBook (Connection conn, String title) throws SQLException {
+
     }
 }
