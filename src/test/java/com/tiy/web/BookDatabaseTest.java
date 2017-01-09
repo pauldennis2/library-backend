@@ -2,7 +2,9 @@ package com.tiy.web;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.sql.*;
 
@@ -12,6 +14,9 @@ import static org.junit.Assert.*;
  * Created by Paul Dennis on 1/6/2017.
  */
 public class BookDatabaseTest {
+
+    @Rule
+    public final ExpectedException expectedException = ExpectedException.none();
 
     static BookDatabase bookDatabase;
     Connection conn;
@@ -28,7 +33,8 @@ public class BookDatabaseTest {
 
     @After
     public void tearDown() throws Exception {
-
+        bookDatabase.deleteBook(conn, "Even Moar Boring");
+        bookDatabase.deleteBook(conn, "TestBook");
     }
 
     @Test
@@ -97,7 +103,7 @@ public class BookDatabaseTest {
         String bookName = "Boring Test Book";
         Book king1 = new Book (bookName, "Smith", "Fantasy");
         Book king2 = new Book (bookName, "Smith", "Fantasy");
-
+        //This is unnecessary I think; we could just insert the same object twice
         int id1 = bookDatabase.insertBook(conn, king1);
         int id2 = bookDatabase.insertBook(conn, king2);
 
@@ -107,5 +113,54 @@ public class BookDatabaseTest {
         Book retrievedBook = bookDatabase.retrieveBook(conn, bookName);
         assertEquals(id2, retrievedBook.getId());
         bookDatabase.deleteBook(conn, bookName);
+    }
+
+    @Test
+    public void testCheckoutBook () throws SQLException {
+        String bookName = "Even Moar Boring";
+        String userName = "Tester";
+        Book book1 = new Book (bookName, "Blah", "Blah");
+        Book book2 = new Book (bookName, "Blah", "Blah");
+
+
+        bookDatabase.insertBook(conn, book1);
+        bookDatabase.insertBook(conn, book2);
+        bookDatabase.checkOutBook(conn, bookName, userName);
+
+        PreparedStatement statement = conn.prepareStatement("Select user from books where title = ?");
+        statement.setString(1, bookName);
+        ResultSet results = statement.executeQuery();
+        int numMatches = 0;
+        while (results.next()) {
+            String user = results.getString("user");
+            if (userName.equals(user)) { //User can be null, so order matters here (user.equals fails)
+                numMatches++;
+            }
+        }
+        assertEquals(1, numMatches);
+
+        bookDatabase.checkOutBook(conn, bookName, "Tester");
+        expectedException.expect(AssertionError.class);
+        bookDatabase.checkOutBook(conn, bookName, "Tester");
+        //Forced to move the delete to cleanup since we are throwing an exception
+    }
+
+    @Test
+    public void testReturnBook () throws SQLException {
+        String bookName = "TestBook";
+        Book book = new Book (bookName, "Blah", "Blah");
+
+        bookDatabase.deleteBook(conn, bookName);
+
+        bookDatabase.insertBook(conn, book);
+        bookDatabase.checkOutBook(conn, bookName, "Jack");
+        bookDatabase.returnBook(conn, bookName);
+        PreparedStatement statement = conn.prepareStatement("Select user from books where title = ?");
+        statement.setString(1, bookName);
+        ResultSet results = statement.executeQuery();
+        results.next();
+        assertEquals("none", results.getString("user"));
+        expectedException.expect(AssertionError.class);
+        bookDatabase.returnBook(conn, bookName);
     }
 }

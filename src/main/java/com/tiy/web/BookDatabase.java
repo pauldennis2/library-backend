@@ -15,6 +15,8 @@ public class BookDatabase {
 
     public final static String DB_PATH = "jdbc:h2:./main";
 
+    //Agreement: "none" is a reserved username
+
     public BookDatabase () {
     }
 
@@ -90,13 +92,11 @@ public class BookDatabase {
         ResultSet results = statement.executeQuery();
         while (results.next()) {
             int id = results.getInt("id");
-            String title = results.getString("text");
+            String title = results.getString("title");
             String author = results.getString("author");
             String genre = results.getString("genre");
-            int user_id = results.getInt("user_checked_out_id");
-            String dueDate = results.getString("due_date");
-            throw new AssertionError("fix");
-            //books.add(new Book(id, title, author, genre, user_id, dueDate));
+            String user = results.getString("user");
+            books.add(new Book(id, title, author, genre, user));
         }
         return books;
     }
@@ -105,10 +105,11 @@ public class BookDatabase {
         List<Book> books = new ArrayList<>();
         PreparedStatement statement;
         if (checkedOut) {
-            statement = conn.prepareStatement("Select * from books where user != null");
+            statement = conn.prepareStatement("Select * from books where user != ?");
         } else {
-            statement = conn.prepareStatement("Select * from books where user = null");
+            statement = conn.prepareStatement("Select * from books where user = ?");
         }
+        statement.setString(1, "none");
         ResultSet results = statement.executeQuery();
         while (results.next()) {
             int id = results.getInt("id");
@@ -116,7 +117,6 @@ public class BookDatabase {
             String author = results.getString("author");
             String genre = results.getString("genre");
             String user = results.getString("user");
-            String dueDate = results.getString("due_date");
             books.add(new Book(id, title, author, genre, user));
         }
         return books;
@@ -155,11 +155,43 @@ public class BookDatabase {
         server.stop();
     }
 
-    public void checkOutBook (Connection conn, String title) throws SQLException {
-
+    /**
+     *
+     * @param conn
+     * @param title
+     * @param userName
+     * @return true if successful, otherwise throws an assertion error
+     * @throws SQLException
+     */
+    public boolean checkOutBook (Connection conn, String title, String userName) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("Select * from books where title = ? AND user = ?");
+        statement.setString(1, title);
+        statement.setString(2, "none");
+        ResultSet results = statement.executeQuery();
+        if (results.next()) {
+            int id = results.getInt("id");
+            PreparedStatement checkoutStatement = conn.prepareStatement("Update books set user = ? where id = ?");
+            checkoutStatement.setString(1, userName);
+            checkoutStatement.setInt(2, id);
+            checkoutStatement.execute();
+            return true;
+        }
+        throw new AssertionError("Book *" + title + "* not found available for checkout");
     }
 
-    public void returnBook (Connection conn, String title) throws SQLException {
-
+    public boolean returnBook (Connection conn, String title) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("Select * from books where title = ? and user != ?");
+        statement.setString(1, title);
+        statement.setString(2, "none");
+        ResultSet results = statement.executeQuery();
+        if (results.next()) {
+            int id = results.getInt("id");
+            PreparedStatement checkInStatement = conn.prepareStatement("Update books set user = ? where id = ?");
+            checkInStatement.setString(1, "none");
+            checkInStatement.setInt(2, id);
+            checkInStatement.execute();
+            return true;
+        }
+        throw new AssertionError("Book *" + title + "* not found to return");
     }
 }

@@ -86,6 +86,9 @@ public class Book {
     }
 
     public String getCheckedOutBy () {
+        if (checkedOutBy == null) {
+            return "none";
+        }
         return checkedOutBy;
     }
 
