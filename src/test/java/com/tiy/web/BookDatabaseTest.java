@@ -19,7 +19,7 @@ public class BookDatabaseTest {
     public final ExpectedException expectedException = ExpectedException.none();
 
     static BookDatabase bookDatabase;
-    Connection conn;
+    static Connection conn;
     public static final String DB_PATH = "jdbc:h2:./main";
 
     @Before

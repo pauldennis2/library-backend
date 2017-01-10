@@ -15,9 +15,35 @@ public class Book {
     String title;
     String author;
     String genre;
-    //User checkedOutBy;
-    //int checkedOutById;
     String checkedOutBy;
+
+    public Book () {
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
     public Book (String title, String author, String genre) {
         this.title = title;

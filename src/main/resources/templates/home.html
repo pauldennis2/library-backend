@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Libra Ry</title>
+</head>
+<body>
+<ol>
+    {{#book-list}}
+    <div>
+        <li>{{title}}, by {{author}} ({{genre}}) Checked out by {{checkedOutBy}}
+    </div>
+    {{/book-list}}
+</ol>
+<a href = "/admin">Admin</a> <br>
+<a href = "/book-list.json">book-list.json</a> <br>
+
+<br>
+Don't use this form!
+<form action="book-checkout.json" method="post">
+    <input type="text" placeholder="Enter book name" name="title"/>
+    <input type="text" placeholder="Enter username to checkout to." name="userName"/>
+    <button type="submit">Checkout Book</button>
+</form>
+</body>
+</html>

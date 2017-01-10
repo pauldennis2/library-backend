@@ -21,8 +21,8 @@ public class LibraryJSONController {
 
     boolean booksInit = false;
     public static final String DB_PATH = "jdbc:h2:./main";
-    static Connection conn;
-    static BookDatabase bookDatabase;
+    public static Connection conn;
+    public static BookDatabase bookDatabase;
 
     static {
         try {
@@ -36,6 +36,7 @@ public class LibraryJSONController {
 
     @RequestMapping(path = "/sample.json", method = RequestMethod.GET)
     public List<Book> getSampleBooks () throws SQLException {
+        System.out.println("Known 'error'; this method adds duplicates each time the program is run (if called)");
         if (!booksInit) {
             bookDatabase.insertBook(conn, new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", null));
             bookDatabase.insertBook(conn, new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", null));
@@ -60,7 +61,6 @@ public class LibraryJSONController {
         if (!booksInit) {
             getSampleBooks();
         }
-        //We've agreed these should be valid inputs, so the AssertionError should not be reached
         String title = userRequest.getTitle();
         String userName = userRequest.getUserName();
         bookDatabase.checkOutBook(conn, title, userName);
