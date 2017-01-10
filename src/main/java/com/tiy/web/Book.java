@@ -10,27 +10,18 @@ import java.util.Date;
 public class Book {
 
     int id;
-    boolean checkedOut;
-    String dueDate;
     String title;
     String author;
     String genre;
     String checkedOutBy;
+    boolean checkedOut;
 
-    public Book () {
+    public Book() {
 
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
     }
 
     public void setTitle(String title) {
@@ -45,50 +36,48 @@ public class Book {
         this.genre = genre;
     }
 
-    public Book (String title, String author, String genre) {
+    public Book(String title, String author, String genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
 
-        dueDate = null;
+        checkedOutBy = "none";
         checkedOut = false;
-        //checkedOutById = -1;
-        checkedOutBy = null;
     }
 
-    public Book (String title, String author, String genre, String checkedOutBy) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        this.checkedOutBy = checkedOutBy;
-        if (checkedOutBy != null) {
-             checkedOut = true;
-        } else {
-            checkedOut = false;
+    public Book(String title, String author, String genre, String checkedOutBy) {
+        if (checkedOutBy == null) {
+            throw new AssertionError("user cannot be null");
         }
-    }
-
-    public Book(int id, String title, String author, String genre, String checkedOutBy/*, String dueDate*/) {
-        this.id = id;
-        this.dueDate = dueDate;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.checkedOutBy = checkedOutBy;
-        if (checkedOutBy != null) {
+        if (checkedOutBy.equals("none")) {
+            checkedOut = false;
+        } else {
             checkedOut = true;
-        } else {
-            checkedOut = false;
         }
-        //this.checkedOutById = checkedOutById;
+    }
+
+    public Book(int id, String title, String author, String genre, String checkedOutBy) {
+        if (checkedOutBy == null) {
+            throw new AssertionError("user cannot be null");
+        }
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.checkedOutBy = checkedOutBy;
+        if (checkedOutBy.equals("none")) {
+            checkedOut = false;
+        } else {
+            checkedOut = true;
+        }
     }
 
     public boolean isCheckedOut() {
         return checkedOut;
-    }
-
-    public String getDueDate() {
-        return dueDate;
     }
 
     public String getTitle() {
@@ -103,37 +92,23 @@ public class Book {
         return genre;
     }
 
-    /*public int getCheckedOutById () {
-        return checkedOutById;
-    }*/
-
     public int getId() {
         return id;
     }
 
-    public String getCheckedOutBy () {
-        if (checkedOutBy == null) {
-            return "none";
-        }
+    public String getCheckedOutBy() {
         return checkedOutBy;
     }
 
-    public void setCheckedOutBy (String user) {
-        checkedOutBy = user;
+    public void setCheckedOutBy(String user) {
         if (user == null) {
+            throw new AssertionError("user cannot be null (in book.setCheckedOutBy()");
+        }
+        checkedOutBy = user;
+        if (user.equals("none")) {
             checkedOut = false;
         } else {
             checkedOut = true;
         }
-    }
-
-    public static String getDateFromLocalDateTime () {
-        LocalDateTime time = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY MMM DD");
-        return time.format(formatter);
-    }
-
-    public static LocalDateTime getLocalDateTimeFromString (String formattedDateTime) {
-        return null;
     }
 }

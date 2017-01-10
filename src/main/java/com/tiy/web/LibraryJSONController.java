@@ -38,11 +38,11 @@ public class LibraryJSONController {
     public List<Book> getSampleBooks () throws SQLException {
         System.out.println("Known 'error'; this method adds duplicates each time the program is run (if called)");
         if (!booksInit) {
-            bookDatabase.insertBook(conn, new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", null));
-            bookDatabase.insertBook(conn, new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", null));
+            bookDatabase.insertBook(conn, new Book("The Fellowship of the Ring", "J R Tolkien", "Fantasy", "none"));
+            bookDatabase.insertBook(conn, new Book("The Cinder Spires", "Jim Butcher", "Steampunk/Fantasy", "none"));
             bookDatabase.insertBook(conn, new Book("The Martian", "Andy Weir", "Science Fiction", "Paul"));
-            bookDatabase.insertBook(conn, new Book("Cryoburn", "Lois McMaster Bujold", "Science Fiction", null));
-            bookDatabase.insertBook(conn, new Book("Mossflower", "Brian Jacques", "Fantasy", null));
+            bookDatabase.insertBook(conn, new Book("Cryoburn", "Lois McMaster Bujold", "Science Fiction", "none"));
+            bookDatabase.insertBook(conn, new Book("Mossflower", "Brian Jacques", "Fantasy", "none"));
             booksInit = true;
         }
         return bookDatabase.selectAllBooks(conn);
